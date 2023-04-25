@@ -25,9 +25,10 @@ class CategoryController extends BaseController
     public function create()
     {
         $item = new BlogCategory();
-        $categoryList =BlogCategory::all();
+        $categoryList = BlogCategory::all();
 
-        return view('blog.admin.categories.edit', compact('item','categoryList'));
+        return view('blog.admin.categories.edit',
+            compact('item','categoryList'));
 
     }
 
@@ -43,9 +44,11 @@ class CategoryController extends BaseController
 
         }
 
-        $item = new BlogCategory($data);
+//        $item = new BlogCategory($data);
+//
+//        $item->save();
 
-        $item->save();
+        $item = (new BlogCategory())->create($data);
 
         if ($item){
             return redirect()
@@ -71,10 +74,17 @@ class CategoryController extends BaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id, BlogCategoryRepository $categoryRepository)
     {
-        $item = BlogCategory::findOrFail($id);
-        $categoryList = BlogCategory::all();
+//        $item = BlogCategory::findOrFail($id);
+//        $categoryList = BlogCategory::all();
+
+        $item = BlogCategory::where()->where(function (){
+
+        })->join();
+        $item = $categoryRepository->getEdit();
+        $categoryList = $categoryRepository->getForComboBox();
+
 
         return view('blog.admin.categories.edit', compact('item','categoryList'));
     }
