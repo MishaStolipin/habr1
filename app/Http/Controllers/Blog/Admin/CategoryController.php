@@ -4,16 +4,31 @@ namespace App\Http\Controllers\Blog\Admin;
 
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
-use Illuminate\Http\Request;
+use App\Repository\BlogCategoryRepository;
 
 class CategoryController extends BaseController
 {
+    /**
+     * @var BlogCategoryRepository
+     */
+    private $blogCategoryRepository;
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->blogCategoryRepository = app(BlogCategoryRepository::class);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $paginator = BlogCategory::paginate(15);
+//        $paginator = BlogCategory::paginate(15);
+
+        $paginator = $this->blogCategoryRepository->getAllWhithPaginate(5);
+
+
 //        dd($paginator);
 
         return view ('blog.admin.categories.index', compact('paginator'));
@@ -65,11 +80,11 @@ class CategoryController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        dd(__METHOD__);
-
-    }
+//    public function show(string $id)
+//    {
+//        dd(__METHOD__);
+//
+//    }
 
     /**
      * Show the form for editing the specified resource.
@@ -79,11 +94,12 @@ class CategoryController extends BaseController
 //        $item = BlogCategory::findOrFail($id);
 //        $categoryList = BlogCategory::all();
 
-        $item = BlogCategory::where()->where(function (){
-
-        })->join();
-        $item = $categoryRepository->getEdit();
-        $categoryList = $categoryRepository->getForComboBox();
+//        $item = BlogCategory::where()->where(function (){
+//        })->join();
+        $item = $categoryRepository
+            ->getEdit($id);
+        $categoryList = $categoryRepository
+            ->getForComboBox();
 
 
         return view('blog.admin.categories.edit', compact('item','categoryList'));
@@ -94,22 +110,7 @@ class CategoryController extends BaseController
      */
     public function update(BlogCategoryUpdateRequest $request, $id)
     {
-
-//        $rules =[
-//            'title' =>'required|min:5|max:200',
-//            'slug' =>'max:200',
-//            'description' =>'string|max:500|min:3',
-//            'parent_id' => 'required|integer|exists:blog_categories,id',
-//        ];
-//        $validatedData = $this->validate($request, $rules);
-//
-//        $validatedData = $request->validate($rules);
-
-//        dd($validatedData);
-
-
-
-        $item = BlogCategory::find($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
         if (empty($item)){
             return back()
                 ->withErrors(['msg'=>"Запись id=[{$id}] не найдена" ])
