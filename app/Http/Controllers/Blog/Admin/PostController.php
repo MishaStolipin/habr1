@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Blog\Admin;
 
+use App\Models\BlogCategory;
 use App\Repository\BlogPostRepository;
 
 use Illuminate\Http\Request;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 class PostController extends BaseController
 {
 
-    private $blogPostRopository;
+    private $blogPostRepository;
 
 
     public function __construct()
@@ -22,7 +23,10 @@ class PostController extends BaseController
      */
     public function index()
     {
-        //
+
+
+        $paginator = $this->blogPostRepository->getAllWithPaginate();
+        return view('blog.admin.posts.index', compact('paginator'));
     }
 
     /**

@@ -2,10 +2,10 @@
 namespace App\Repository;
 
 
-use App\Models\BlogCategory as Model;
+use App\Models\BlogPost as Model;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
-class BlogCategoryRepository extends CoreRepository
+class BlogPostRepository extends CoreRepository
 {
 
 
@@ -19,51 +19,23 @@ class BlogCategoryRepository extends CoreRepository
         return $this->starConditions()->find($id);
     }
 
-    public function getForComboBox()
+    public function getAllWithPaginate()
     {
-//        return $this->starConditions()->all();
-
-        $columns = implode(', ',[
+        $columns = [
             'id',
-            'CONCAT (id, ". ", title) AS id_title',
-        ]);
-
-//        $result[]=$this
-//            ->starConditions()
-//            ->all();
-//        $result[] = $this
-//            ->starConditions()
-//            ->select('blog_categories.*',
-//                \DB::raw('CONCAT (id, ". ", title) AS id_title'))
-//            ->toBase()
-//            ->get();
-
-        $result= $this
-            ->starConditions()
-            ->selectRaw($columns)
-            ->toBase()
-            ->get();
-
-
-//        dd($result->first);
-        return $result;
-    }
-
-    /**
-     * @param int|null $perPage
-     *
-     * @return LengthAwarePaginator
-     */
-
-
-    public function getAllWhithPaginate($perPage =null)
-    {
-        $columns = ['id','title','parent_id'];
+            'title',
+            'slug',
+            'is_published',
+            'published_at',
+            'user_id',
+            'category_id',
+        ];
 
         $result = $this
             ->starConditions()
             ->select($columns)
-            ->paginate($perPage);
+            ->orderBy('id','DESC')
+            ->paginate(25);
 //dd($result);
         return $result;
     }

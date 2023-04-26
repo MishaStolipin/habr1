@@ -26,7 +26,7 @@ class CategoryController extends BaseController
     {
 //        $paginator = BlogCategory::paginate(15);
 
-        $paginator = $this->blogCategoryRepository->getAllWhithPaginate(5);
+        $paginator = $this->blogCategoryRepository->getAllWhithPaginate();
 
 
 //        dd($paginator);
@@ -41,6 +41,8 @@ class CategoryController extends BaseController
     {
         $item = new BlogCategory();
         $categoryList = BlogCategory::all();
+        //TODO вставить в блейд
+//        $categoryList = BlogCategory::pluck('title','id');
 
         return view('blog.admin.categories.edit',
             compact('item','categoryList'));

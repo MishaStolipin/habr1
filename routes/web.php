@@ -32,7 +32,13 @@ $groupData =[
 ];
 Route::group($groupData, function (){
     $methods = ['index','edit','update','create','store',];
-    Route::resource('categories',\App\Http\Controllers\Blog\Admin\CategoryController::class)->only($methods)->names('blog.admin.categories');
+    Route::resource('categories',\App\Http\Controllers\Blog\Admin\CategoryController::class)
+        ->only($methods)
+        ->names('blog.admin.categories');
+
+    Route::resource('post',\App\Http\Controllers\Blog\Admin\PostController::class)
+        ->except('show')
+        ->names('blog.admin.posts');
 }
 );
 
