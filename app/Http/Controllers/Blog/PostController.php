@@ -4,20 +4,31 @@ namespace App\Http\Controllers\Blog;
 
 use App\Http\Controllers\Blog\BaseController;
 use App\Models\BlogPost;
+use App\Repository\BlogPostRepository;
 use Illuminate\Http\Request;
 
 class PostController extends BaseController
 {
+
+    private $blogPostRepository;
+
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->blogPostRepository = app(BlogPostRepository::class);
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $items = BlogPost::all();
+        $paginator = $this->blogPostRepository->getAllWithPaginate();
 
 //        dd($items);
 
-        return view('blog.posts.index',compact('items'));
+        return view('blog.posts.index',compact('paginator'));
     }
 
     /**

@@ -13,7 +13,7 @@ class BlogCategory extends Model
 {
     use SoftDeletes;
 
-    protected $table  = 'blog_categories';
+//    protected $table  = 'blog_categories';
 
     protected $fillable = [
         'title',
@@ -23,23 +23,23 @@ class BlogCategory extends Model
     ];
 
 
-    public function children():HasMany{
-        return $this->hasMany(self::class,'parent_id');
-    }
-
-    public function getChildren(): Collection
-    {
-        return $this->children;
-    }
-
-    public function parent():BelongsTo{
-        return $this->belongsTo(self::class,'parent_id');
-    }
-
-    public function getParent(): ?self
-    {
-        return $this->parent;
-    }
+//    public function children():HasMany{
+//        return $this->hasMany(self::class,'parent_id');
+//    }
+//
+//    public function getChildren(): Collection
+//    {
+//        return $this->children;
+//    }
+//
+//    public function parent():BelongsTo{
+//        return $this->belongsTo(self::class,'parent_id');
+//    }
+//
+//    public function getParent(): ?self
+//    {
+//        return $this->parent;
+//    }
 
 
 }
